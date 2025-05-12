@@ -1,5 +1,5 @@
-import { join, SEPARATOR } from 'jsr:@std/path@0.224.0'
-import { ensureFile, exists } from 'jsr:@std/fs@0.224.0'
+import { join, SEPARATOR } from 'jsr:@std/path@1'
+import { ensureFile, exists } from 'jsr:@std/fs@1'
 
 /**
  * Represents a single entry in the sitemap with a location and last modified date.
