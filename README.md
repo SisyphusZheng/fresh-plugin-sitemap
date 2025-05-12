@@ -1,3 +1,5 @@
+# unstable now, can not be use
+
 # Fresh Sitemap Plugin
 
 This plugin generates a sitemap for a Deno Fresh v2 project. It scans the routes
