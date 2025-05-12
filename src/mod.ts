@@ -151,29 +151,6 @@ function arrayToObject(arr: string[]): Record<string, number> {
 }
 
 /**
- * Filters path segments based on specific criteria for sitemap inclusion.
- * Sets the value to 0 for paths containing grouping indicators like parentheses or square brackets.
- * @param pathMap - Object containing path segments with inclusion flags
- * @returns Filtered pathMap with updated inclusion flags
- */
-function checkSegments(
-  pathMap: Record<string, number>,
-): Record<string, number> {
-  for (const key in pathMap) {
-    if (key.startsWith('(') && key.endsWith(')')) {
-      pathMap[key] = 0
-    }
-    if (key.startsWith('[') && key.endsWith(']')) {
-      pathMap[key] = 0
-    }
-    if (key === 'routes') {
-      pathMap[key] = 0
-    }
-  }
-  return pathMap
-}
-
-/**
  * Generates sitemap entries for static routes, excluding dynamic and grouping directories.
  * Uses a Map to ensure unique `loc` values in the sitemap, keeping only the most recent `lastmod` value.
  * @param basename - The base URL of the website (e.g., 'https://example.com')
@@ -222,13 +199,7 @@ async function generateSitemap(
       const { mtime } = await Deno.stat(filePath)
 
       const pathSegments = path.split(SEPARATOR)
-
-      const segCheckObj = arrayToObject(pathSegments)
-      const checkedSegments = checkSegments(segCheckObj)
-
-      const neededSegmentsPath = pathSegments
-        .filter((segment) => checkedSegments[segment] === 1)
-        .join('/')
+      const neededSegmentsPath = pathSegments.join('/')
 
       const cleanedPath = neededSegmentsPath.replace(/\.tsx$/, '').replace(
         /\index$/,
@@ -314,13 +285,7 @@ async function generatePostsSitemap(
     const routeSegments = postRoute.replace('./routes', '').split(
       SEPARATOR,
     )
-
-    const segCheckObj = arrayToObject(routeSegments)
-    const checkedSegments = checkSegments(segCheckObj)
-
-    const neededSegmentsPath = routeSegments
-      .filter((segment) => checkedSegments[segment] === 1)
-      .join('/')
+    const neededSegmentsPath = routeSegments.join('/')
 
     const slugSegmentsPath = segments.slice(3).join('/')
     const pathname = neededSegmentsPath + '/' + slugSegmentsPath
