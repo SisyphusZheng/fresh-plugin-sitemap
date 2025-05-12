@@ -5,11 +5,12 @@
   "runtimes": ["deno", "browser"],
   "exports": "./mod.ts",
   "tasks": {
-    "dev": "deno test --watch mod.ts",
-    "test": "deno test --watch mod_test.ts"
+    "dev": "deno test --watch=src/ mod.ts"
   },
   "license": "Apache-2.0",
   "imports": {
+    "@std/path": "jsr:@std/path@^1",
+    "@std/fs": "jsr:@std/fs@^1"
   },
   "fmt": {
     "options": {
